@@ -11,22 +11,22 @@
 <body>
     <h1>Ejercicio 3</h1>
     <?php
-        $mesPeli["Enero"] = 9;
-        $mesPeli["Febrero"] = 12;
-        $mesPeli["Marzo"] = 0;
-        $mesPeli["Abril"] = 17;
+    $mesPeli["Enero"] = 9;
+    $mesPeli["Febrero"] = 12;
+    $mesPeli["Marzo"] = 0;
+    $mesPeli["Abril"] = 17;
 
-        foreach ($mesPeli as $mes => $pelis) {
-            if ($pelis != 0) {
-                echo "<p> En el mes de " . $mes . " has visto " . $pelis;
-                if ($pelis == 1) {
-                    echo "pelicula.";
-                } else {
-                    echo "peliculas";
-                }
-                echo "</p>";
+    foreach ($mesPeli as $mes => $pelis) {
+        if ($pelis != 0) {
+            echo "<p> En el mes de " . $mes . " has visto " . $pelis;
+            if ($pelis == 1) {
+                echo "pelicula.";
+            } else {
+                echo "peliculas";
             }
+            echo "</p>";
         }
+    }
     ?>
 
 </body>

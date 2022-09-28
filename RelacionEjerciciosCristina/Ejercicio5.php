@@ -11,10 +11,9 @@
 <body>
     <?php
 
-    for ($i = 1; $i <= 10; $i++) {
-        $array[$i] = $i * 2;
-        echo $array[$i] . "<br />";
-    }
+    $array = array("Nombre" => "Pedro Torres", "Dirección" => "C / Mayor , 37", "Teléfono" => "123456789");
+    print_r($array);
+
     ?>
 </body>
 

@@ -11,10 +11,11 @@
 <body>
     <?php
 
-    for ($i = 1; $i <= 10; $i++) {
-        $array[$i] = $i * 2;
-        echo $array[$i] . "<br />";
+    $array = array("MD"=>"Madrid", "BC"=> "Barcelona", "LD"=>"Londres", "NY"=>"New York", "LA"=>"Los Ángeles", "CG"=>"Chicago");
+    foreach ($array as $indice => $ciudad) {
+        echo "<p>la ciudad con índice " . $indice . " es " . $ciudad . "</p>";
     }
+
     ?>
 </body>
 
