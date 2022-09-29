@@ -26,10 +26,10 @@
 			echo strtolower($texto1);
 			
 			//Te dice toda la info de un String(desde cuánto mide, a qué contiene y qué lo conforma)
-			echo "<p>".var_dump($texto1)."</p>";
+			//echo "<p>".var_dump[$arr]."</p>";
 			
 			//Es como el split en java
-			//$texto2= implode("", $arr);
+			$texto2= implode(": ;",$arr);
 			
 			//Encripta un String
 			echo md5($texto2);
