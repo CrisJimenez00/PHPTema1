@@ -58,11 +58,6 @@ if (isset($_POST["guardar"]) && !$error_formulario) {
                             echo "<span class='error'>*Campo Vacío*</span>";
                         ?>
                     </td>
-
-
-
-
-
                 </form>
             </table>
             <button type="submit" name="guardar">Guardar cambios</button>
