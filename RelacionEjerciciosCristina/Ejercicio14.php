@@ -14,20 +14,27 @@
     $estadios_futbol = array(
         "Barcelona" => "Camp Nou", "Real Madrid" => "Santiago Bernabeu", "Valencia"  => "Mestalla", "Real Sociedad" => "Anoeta"
     );
-    for ($i = 0; $i < count($array_animales); $i++) {
-        array_push($array_total, $array_animales[$i]);
+    echo "<table>";
+    echo "<th>Estadios de fútbol</th>";
+    foreach ($estadios_futbol as $ciudad => $equipo) {
+        echo "<tr>";
+        echo "<td>" . $ciudad . "</td>";
+        echo "<td>" . $equipo . "</td>";
+        echo "</tr>";
     }
-    for ($i = 0; $i < count($array_numeros); $i++) {
-        array_push($array_total, $array_numeros[$i]);
-    }
-    for ($i = 0; $i < count($array_random); $i++) {
-        array_push($array_total, $array_random[$i]);
-    }
+    echo "<br/>";
+    echo "<h3>Estadios de fútbol sin el Madrid</h3>";
+    echo "<ol>";
+    foreach ($estadios_futbol as $ciudad => $equipo) {
 
-    for ($i = count($array_total) - 1; $i > 0; $i--) {
-        echo "<p>" . $array_total[$i] . "</p>";
-    }
+        if ($ciudad != "Real Madrid") {
 
+            echo "<li>" . $ciudad . "</li>";
+            echo "<ul><li>" . $equipo . "</li></ul>";
+        }
+    }
+    echo "</ol>";
+    echo "</table";
     ?>
 
 </body>

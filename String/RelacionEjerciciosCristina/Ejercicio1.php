@@ -1,69 +1,59 @@
 <?php
-
-if (isset($_POST["guardar"])) {
-    $error_primera_palabra = $_POST["primePalabra"] == "";
-    $error_segunda_palabra = $_POST["segunPalabra"] == "";
-    $error_formulario = $error_primera_palabra || $error_segunda_palabra;
+if (isset($_POST["comparar"])) {
+    $error_primera = strlen($_POST["texto1"]) < 3;
+    $error_segunda = strlen($_POST["texto2"]) < 3;
+    $error_form = $error_primera || $error_segunda;
 }
-if (isset($_POST["guardar"]) && !$error_formulario) {
-    require "Ejercicio1.php";
-} else {
 ?>
-    <DOCTYPE html>
-        <html lang="es">
 
-        <head>
-            <title>Formulario</title>
-            <meta charset="UTF-8" />
-        </head>
+<DOCTYPE html>
+    <html lang="es">
 
-        <body>
-            <table border=1>
-                <form method="post" action="Ejercicio1.php" enctype="multipart/form-data">
-                    <tr>
-                        <th colspan="2">
-                            <h2>Ripios - Formulario</h2>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <p>Dime dos palabras y te diré si riman o no</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="primePalabra">Primera palabra: </label>
-                        </td>
-                        <td>
-                            <input type="text" name="primePalabra" id="primePalabra" value="<?php if (isset($_POST["primePalabra"])) echo $_POST["primePalabra"] ?>">
+    <head>
+        <title>Formulario</title>
+        <meta charset="UTF-8" />
+    </head>
 
-                            <?php
-                            if (isset($_POST["primePalabra"]) && $error_primera_palabra) {
-                                echo "<span class='error'>*Campo Vacío*</span>";
-                            } else if (strlen("primePalabra") < 3 && $error_primera_palabra) {
-                                echo "<span class='error'>*Al menos 3 carácteres*</span>";
-                            }
-                            ?>
-                        </td>
-                    </tr>
+    <body>
+        <form method="post" action="Ejercicio1.php" enctype="multipart/form-data">
+            <h2>Ripios - Formulario</h2>
+            <p>Dime dos palabaras y te dire si riman o no</p>
+            Primera palabra: <input type="text" name="texto1" value="<?php if (isset($_POST["texto1"])) echo $_POST["texto1"] ?>" />
+            <?php if (isset($_POST["comparar"]) && ($_POST["texto1"] == "")) echo "*Campo obligatorio*";
+            else if (isset($_POST["comparar"]) && strlen($_POST["texto1"]) < 3) echo "*teclee al menos 3 caracteres*" ?>
+            <br />
+            Segunda palabra: <input type="text" name="texto2" value="<?php if (isset($_POST["texto2"])) echo $_POST["texto2"] ?>" />
+            <?php if (isset($_POST["comparar"]) && ($_POST["texto2"] == "")) echo "*Campo obligatorio*";
+            else if (isset($_POST["comparar"]) && strlen($_POST["texto2"]) < 3) echo "*teclee al menos 3 caracteres*" ?>
+            <br />
+            <button type="submit" name="comparar">Comparar</button>
 
-                    <td>
-                        <label for="segunPalabra">Segunda palabra:</label>
-                    </td>
-                    <td>
-                        <input type="text" name="segunPalabra" id="segunPalabra" size="40" value="<?php if (isset($_POST["segunPalabra"])) echo $_POST["segunPalabra"] ?>">
 
-                        <?php
-                        if (isset($_POST["segunPalabra"]) && $error_segunda_palabra)
-                            echo "<span class='error'>*Campo Vacío*</span>";
-                        ?>
-                    </td>
-                </form>
-            </table>
-            <button type="submit" name="guardar">Guardar cambios</button>
-        </body>
-    <?php
-}
-    ?>
+        </form>
+        <?php
+        if (isset($_POST["comparar"]) && !$error_form) {
+            $texto1 = trim(strtoupper($_POST["texto1"]));
+            $texto2 = trim(strtoupper($_POST["texto2"]));
+            $l_texto1 = strlen($_POST["texto1"]);
+            $l_texto2 = strlen($_POST["texto2"]);
 
-        </html>
+            $respuesta = "no riman";
+
+            if ($texto1[$l_texto1-1] == $texto2[$l_texto2-1] && $texto1[$l_texto1-2] == $texto2[$l_texto2-2]) {
+
+                $respuesta = "riman un poco";
+
+                if ($texto1[$l_texto1 - 3] == $texto2[$l_texto2 - 3]) {
+
+                    $respuesta = "riman";
+
+                }
+
+                echo "<p>las palabras" . $texto1 . " y " . $texto2 . " " . $respuesta . "</p>";
+                
+            }
+        }
+        ?>
+    </body>
+
+    </html>
