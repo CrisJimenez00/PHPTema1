@@ -1,7 +1,36 @@
 <?php
-if (isset($_POST["btnComparar"])) {
 
-    $error_texto = $_POST["texto"] == "" || strlen($_POST["texto"]) < 3;
+function es_fecha($fecha)
+{
+
+    //Hay que controlar que la fecha se compone de 10 caráteres
+    //De que cada substring contenga una barra y su correcto formato
+    //Y que la fecha sea válida
+    if (strlen($fecha) == 10) {
+
+        $tramoDia = substr($fecha, 0, 2);
+        $sep1 = substr($fecha, 2, 1);
+        $tramoMes = substr($fecha, 3, 2);
+        $sep2 = substr($fecha, 5, 1);
+        $tramoAnio = substr($fecha, 6, 4);
+
+        if ($sep1 != "/" || $sep2 != "/") {
+
+            return false;
+        } else {
+
+            return checkdate($tramoMes, $tramoDia, $tramoAnio);
+        }
+    } else {
+
+        return false;
+    }
+}
+
+if (isset($_POST["btnCalcular"])) {
+    $error_fecha1 = $_POST["fecha1"] == "" || !es_fecha($_POST["fecha1"]);
+    $error_fecha2 = $_POST["fecha2"] == "" || !es_fecha($_POST["fecha2"]);
+    $errores_fechas = $error_fecha1 || $error_fecha2;
 }
 ?>
 
@@ -9,7 +38,7 @@ if (isset($_POST["btnComparar"])) {
 <html lang="es">
 
 <head>
-    <title>Ejercicio2</title>
+    <title>Ejercicio1</title>
     <meta charset="UTF-8" />
     <style>
         .formulario {
@@ -20,93 +49,75 @@ if (isset($_POST["btnComparar"])) {
         .respuesta {
             background-color: lightgreen;
             border: 2px solid black;
+            margin-top: 2em
         }
 
         h2 {
-            text-align: center;
+            text-align: center
         }
 
         form,
         .respuesta p {
-            margin-left: 2em;
+            margin-left: 2em
         }
     </style>
 </head>
 
 <body>
     <div class="formulario">
-        <h2>Fechas - Formulario</h2>
-        <form action="fecha1.php" method="post" enctype="multipart/form-data">
-
-            <!--Donde se introducen los datos-->
-            <!--Fecha 1-->
-            <p><label for="text">Introduzca una fecha: (DD/MM/YYYY) </label>
-                <input type="text" name="texto" id="text" value="<?php if (isset($_POST["texto"])) echo $_POST["texto"]; ?>" />
+        <h2>Fechas -Formulario</h2>
+        <form action="fecha1.php" method="post">
+            <p>Dime dos fechas y te daré los dias de diferencia entre ellas</p>
+            <p><label for="fecha1">Introduzca una fecha: (DD/MM/YYYY)</label>
+                <input type="text" name="fecha1" id="fecha1" value="<?php if (isset($_POST["fecha1"])) echo $_POST["fecha1"]; ?>" />
                 <?php
-                if (isset($_POST["btnComparar"]) && $error_texto) {
-
-                    if ($_POST["texto"] == "" ) {
-
-                        echo "*Campo vacío*";
-                    } else {
-
-                        echo "La fecha no es válida";
-                    }
+                if (isset($_POST["btnCalcular"]) && $error_fecha1) {
+                    if ($_POST["fecha1"] == "")
+                        echo " * Campo Vacío * ";
+                    else
+                        echo "Fecha no válida";
                 }
+
+                ?>
+            </p>
+            <p><label for="fecha2">Introduzca una fecha: (DD/MM/YYYY)</label>
+                <input type="text" name="fecha2" id="fecha2" value="<?php if (isset($_POST["fecha2"])) echo $_POST["fecha2"]; ?>" />
+                <?php
+                if (isset($_POST["btnCalcular"]) && $error_fecha2) {
+                    if ($_POST["fecha2"] == "")
+                        echo " * Campo Vacío * ";
+                    else
+                        echo "Fecha no válida";
+                }
+
                 ?>
             </p>
 
-            <!--Fecha 2-->
-            <p><label for="text">Introduzca una fecha: (DD/MM/YYYY) </label>
-                <input type="text" name="texto" id="text" value="<?php if (isset($_POST["texto"])) echo $_POST["texto"]; ?>" />
-                <?php
-                if (isset($_POST["btnComparar"]) && $error_texto) {
-
-                    if ($_POST["texto"] == "" ) {
-
-                        echo "*Campo vacío*";
-                    } else {
-
-                        echo "La fecha no es válida";
-                    }
-                }
-                ?>
-            </p>
-
-            <!--Parte del botón-->
-            <p><button type="submit" name="btnComparar">Comprobar</button></p>
+            <p><button type="submit" name="btnCalcular">Calcular</button></p>
         </form>
     </div>
-    <?php
-    if (isset($_POST["btnComparar"]) && !$error_texto) {
 
-        $texto = strtolower($_POST["texto"]);
+    <?php
+    if (isset($_POST["btnCalcular"]) && !$errores_fechas) {
+
+        //Con el uso de explode obtengo un array y lo dividimos
+        //por el valor que le pasamos que en este caso es la barra
+        $fec1 = explode("/", $_POST["fecha1"]);
+        $fec2 = explode("/", $_POST["fecha2"]);
+
+        $seg1 = mktime(0, 0, 0, $fec1[1], $fec1[0], $fec1[2]);
+        $seg2 = mktime(0, 0, 0, $fec2[1], $fec2[0], $fec2[2]);
+
+        $dias = ($seg1 - $seg2) / (3600 * 24);
+
+        $dias = abs(floor($dias));
 
         echo "<div class='respuesta'>";
-        echo "<h2>Fechas - Respuesta</h2>";
-        if (is_numeric($texto)) {
-
-            if ($texto == strrev($texto)) {
-
-                echo "<p>El número " . $texto . " es capícua</p>";
-            } else {
-
-                echo "<p>El número " . $texto . " no es capícua</p>";
-            }
-        } else {
-
-            if ($texto == strrev($texto)) {
-
-                echo "<p>El texto " . $texto . " es palíndromo</p>";
-            } else {
-
-                echo "<p>El texto " . $texto . " no es palíndromo</p>";
-            }
-        }
+        echo "<h2>Fechas - Resultado</h2>";
+        echo "<p> Hay " . $dias . " dias de diferencia</p>";
         echo "</div>";
     }
     ?>
-
 </body>
 
 </html>
