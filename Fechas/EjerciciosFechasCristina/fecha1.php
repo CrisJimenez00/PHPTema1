@@ -3,9 +3,6 @@
 function es_fecha($fecha)
 {
 
-    //Hay que controlar que la fecha se compone de 10 caráteres
-    //De que cada substring contenga una barra y su correcto formato
-    //Y que la fecha sea válida
     if (strlen($fecha) == 10) {
 
         $tramoDia = substr($fecha, 0, 2);

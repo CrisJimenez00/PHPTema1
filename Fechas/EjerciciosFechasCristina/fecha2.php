@@ -11,7 +11,7 @@ if (isset($_POST["btnCalcular"])) {
 <html lang="es">
 
 <head>
-    <title>Ejercicio 2</title>
+    <title>Ejercicio2</title>
     <meta charset="UTF-8" />
     <style>
         .formulario {
