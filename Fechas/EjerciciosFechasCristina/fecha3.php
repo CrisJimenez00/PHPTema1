@@ -1,16 +1,16 @@
 <?php
-if (isset($_POST["btnCalcular"])) {
+if (isset($_POST["guardar"])) {
     $error_fecha1 = $_POST["fecha1"] == "";
     $error_fecha2 = $_POST["fecha2"] == "";
-    $errores_fechas = $error_fecha1 || $error_fecha2;
+    $error_form = $error_fecha1 || $error_fecha2;
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <title>Ejercicio 3</title>
+    <title>Fecha3</title>
     <meta charset="UTF-8" />
     <style>
         .formulario {
@@ -24,7 +24,7 @@ if (isset($_POST["btnCalcular"])) {
             margin-top: 2em
         }
 
-        h2 {
+        h1 {
             text-align: center
         }
 
@@ -36,33 +36,50 @@ if (isset($_POST["btnCalcular"])) {
 </head>
 
 <body>
-    <h2>Fechas-Formulario</h2>
-    <form action="fecha3.php" method="post">
-        <p>Introduzca una fecha:
-            <input type="date" value="fecha1">
-        </p>
-        <p>Introduzca una fecha:
-            <input type="date" value="fecha2">
-        </p>
-        <p><button type="submit" name="btnCalcular">Calcular</button></p>
-    </form>
+    <div class='formulario'>
+        <h1>Fechas - Formulario</h1>
+        <form method="post" action="fecha3.php" enctype="multipart/form-data">
+            <p>Introduzca una fecha:
+                <input type="date" name="fecha1" value="<?php if (isset($_POST["fecha1"])) echo $_POST["fecha1"]; ?>" />
+
+                <?php
+                if (isset($_POST["guardar"]) && $_POST["fecha1"] == "")
+                    echo "*Campo vacio*";
+                ?>
+            </p>
+
+            <p>Introduzca una fecha:
+                <input type="date" name="fecha2" value="<?php if (isset($_POST["fecha2"])) echo $_POST["fecha2"]; ?>" />
+                <?php
+                if (isset($_POST["guardar"]) && $_POST["fecha2"] == "")
+                    echo "*Campo vacio*";
+                ?>
+
+            </p>
+
+            <br />
+            <button type="submit" name="guardar">Calcular</button>
+            <br />
+        </form>
+    </div>
     <?php
-    if (isset($_POST["btnCalcular"]) && !$errores_fechas) {
+    if (isset($_POST["guardar"]) && !$_POST["fecha2"] == "" && !$_POST["fecha1"] == "") {
+        $seg1 = strtotime($_POST["fecha1"]);
+        $seg2 = strtotime($_POST["fecha2"]);
 
-        //Con el uso de explode obtengo un array y lo dividimos
-        //por el valor que le pasamos que en este caso es la barra
-
-
-        $dias = ($seg1 - $seg2) / (3600 * 24);
-
-        $dias = abs(floor($dias));
-
+        $dias = ($seg1 - $seg2) / (24 * 60 * 60);
+        $dias = floor(abs($dias));
         echo "<div class='respuesta'>";
-        echo "<h2>Fechas - Resultado</h2>";
+        echo "<h1>Fechas - Resultado</h1>";
         echo "<p> Hay " . $dias . " dias de diferencia</p>";
         echo "</div>";
     }
+
+
+
+
     ?>
+
 </body>
 
 </html>
