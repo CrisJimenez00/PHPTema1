@@ -62,6 +62,7 @@
         echo "</tr>";
     }
     echo "</table>";
+    fclose($fd);
     ?>
 </body>
 
