@@ -10,13 +10,13 @@ if (isset($_POST["btnEnviar"])) {
 <html>
 
 <head>
-	<title>Ejercicio1</title>
+	<title>Ejercicio2</title>
 	<meta charset="UTF-8" />
 </head>
 
 <body>
 	<h1></h1>
-	<form action="ejercicio1.php" method="POST" enctype="multipart/form-data">
+	<form action="ejercicio2.php" method="POST" enctype="multipart/form-data">
 		<p><label for="num">Introduce un número del 1 al 10</label>
 			<input type="text" name="num" id="num" value="<?php if (isset($_POST["num"])) echo $_POST["num"] ?>" size="5" />
 		</p>
@@ -32,26 +32,24 @@ if (isset($_POST["btnEnviar"])) {
 			}
 		}
 		?>
-		<p><button type="submit" name="btnEnviar">Crear</button></p>
+		<p><button type="submit" name="btnEnviar">Leer</button></p>
 	</form>
 
 	<?php
 	if (isset($_POST["btnEnviar"]) && !$errores) {
 
-		@$fd = fopen("Tablas/tabla_" . $_POST["num"] . ".txt", "w");
+		@$fd = fopen("Tablas/tabla_" . $_POST["num"] . ".txt", "r");
 		if (!$fd) {
 
-			die("<p>No se ha podido crear/abrir el fichero Tablas/tabla_" . $_POST["num"] . ".txt</p>");
+			die("<p>No se ha podido leer el fichero Tablas/tabla_" . $_POST["num"] . ".txt</p>");
 		}
 
-		for($i = 1; $i <= 10; $i++){
+		while ($linea = fgets($fd)){
 
-			$linea = $i." x ".$_POST["num"]." = ".($i * $_POST["num"]);
-			fputs($fd, $linea.PHP_EOL);
+			echo "<p>".$linea."</p>";
 		}
-		fclose($fd);
 
-		echo "<h3>Archivo generado con éxito: <a href='Tablas/tabla_".$_POST["num"].".txt'>tabla_".$_POST["num"].".txt</h3>";
+		echo "<h3>Archivo leido con éxito: <a href='Tablas/tabla_".$_POST["num"].".txt'>tabla_".$_POST["num"].".txt</h3>";
 	}
 	?>
 </body>
